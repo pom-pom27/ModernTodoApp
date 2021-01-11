@@ -4,32 +4,31 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.moderntodoapp.db.models.TodoData
 
 @Database(entities = [TodoData::class], version = 1, exportSchema = false)
+@TypeConverters(RoomTypeConverter::class)
 abstract class TodoDatabase : RoomDatabase() {
 
     abstract fun todoDAO(): TodoDAO
 
+
     companion object {
+        @Volatile
+        private var INSTANCE: TodoDatabase? = null
 
-        private var DB_INSTANCE: TodoDatabase? = null
-
-        fun getDatabase(context: Context): TodoDatabase {
-            val tempInstance = DB_INSTANCE
-
-            if (tempInstance != null) {
-                return tempInstance
+        fun getDatabase(context: Context): TodoDatabase =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE
+                    ?: buildDatabase(context).also { INSTANCE = it }
             }
 
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    TodoDatabase::class.java,
-                    "todo_database"
-                ).build()
-                DB_INSTANCE = instance
-                return instance
-            }
-        }
+        private fun buildDatabase(context: Context) =
+            Room.databaseBuilder(
+                context.applicationContext,
+                TodoDatabase::class.java, "todo_table"
+            ).build()
     }
+
 }

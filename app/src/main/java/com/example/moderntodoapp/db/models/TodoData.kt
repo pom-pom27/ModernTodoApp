@@ -1,4 +1,4 @@
-package com.example.moderntodoapp.db
+package com.example.moderntodoapp.db.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

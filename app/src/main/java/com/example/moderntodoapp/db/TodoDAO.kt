@@ -5,12 +5,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.moderntodoapp.db.models.TodoData
 
 @Dao
 interface TodoDAO {
 
     @Query("SELECT * FROM todo_table ORDER BY id ASC")
-    suspend fun getAllData(): LiveData<List<TodoData>>
+    fun getAllData(): LiveData<List<TodoData>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertData(todoData: TodoData)
