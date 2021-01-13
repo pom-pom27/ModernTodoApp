@@ -57,7 +57,7 @@ class ListFragment : Fragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        
+
 
         inflater.inflate(R.menu.list_fragment_menu, menu)
     }
@@ -67,5 +67,5 @@ class ListFragment : Fragment() {
         _binding = null
     }
 
-
+//asdasdasd
 }
