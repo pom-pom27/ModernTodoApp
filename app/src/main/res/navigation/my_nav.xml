@@ -47,5 +47,8 @@
             app:destination="@id/listFragment"
             app:popEnterAnim="@anim/transition_pop_enter_anim"
             app:popExitAnim="@anim/transition_pop_exit_anim" />
+        <argument
+            android:name="currentItem"
+            app:argType="com.example.moderntodoapp.db.models.TodoData" />
     </fragment>
 </navigation>

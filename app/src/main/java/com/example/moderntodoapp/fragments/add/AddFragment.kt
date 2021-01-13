@@ -8,15 +8,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.moderntodoapp.R
 import com.example.moderntodoapp.databinding.FragmentAddBinding
-import com.example.moderntodoapp.db.TodoViewModel
-import com.example.moderntodoapp.db.models.PriorityModel
+import com.example.moderntodoapp.db.SharedViewModel
 import com.example.moderntodoapp.db.models.TodoData
+import com.example.moderntodoapp.db.viewModel.TodoViewModel
 
 
 class AddFragment : Fragment() {
     private var _binding: FragmentAddBinding? = null
     private val binding get() = _binding!!
     private val mTodoViewModel: TodoViewModel by viewModels()
+    private val mSharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +28,8 @@ class AddFragment : Fragment() {
 
         //Set Menu
         setHasOptionsMenu(true)
+
+        binding.dropdown.onItemSelectedListener = mSharedViewModel.listener
 
         return view
     }
@@ -46,37 +49,21 @@ class AddFragment : Fragment() {
         val mTitle = binding.etTitle.text.toString()
         val mPriority = binding.dropdown.selectedItem.toString()
         val mDescription = binding.etDescription.text.toString()
-        val validation = verifyDataFromUser(mTitle, mDescription)
+        val validation = mSharedViewModel.verifyDataFromUser(mTitle, mDescription)
 
         if (validation) {
-            val newData = TodoData(0, mTitle, parsePriority(mPriority), mDescription)
+            val newData =
+                TodoData(0, mTitle, mSharedViewModel.parsePriority(mPriority), mDescription)
             mTodoViewModel.insertData(newData)
             Toast.makeText(requireContext(), "Todo successfully added!", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_addFragment_to_listFragment)
         } else {
             Toast.makeText(requireContext(), "Please input all field", Toast.LENGTH_SHORT).show()
-
         }
     }
 
-    private fun verifyDataFromUser(title: String, description: String): Boolean {
-        return if (title.isBlank() || description.isBlank()) {
-            false
-        } else !(title.isBlank() || description.isBlank())
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
-    private fun parsePriority(priority: String): PriorityModel = when (priority) {
-        "High Priority" -> {
-            PriorityModel.HIGH
-        }
-        "Medium Priority" -> {
-            PriorityModel.MEDIUM
-        }
-        "Low Priority" -> {
-            PriorityModel.LOW
-        }
-        else -> PriorityModel.LOW
-    }
-
 }
