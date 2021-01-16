@@ -26,26 +26,26 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 when (position) {
                     0 -> {
                         (parent.getChildAt(0) as TextView).setTextColor(
-                                ContextCompat.getColor(
-                                        application,
-                                        R.color.green
-                                )
+                            ContextCompat.getColor(
+                                application,
+                                R.color.green
+                            )
                         )
                     }
                     1 -> {
                         (parent.getChildAt(0) as TextView).setTextColor(
-                                ContextCompat.getColor(
-                                        application,
-                                        R.color.yellow
-                                )
+                            ContextCompat.getColor(
+                                application,
+                                R.color.yellow
+                            )
                         )
                     }
                     2 -> {
                         (parent.getChildAt(0) as TextView).setTextColor(
-                                ContextCompat.getColor(
-                                        application,
-                                        R.color.red
-                                )
+                            ContextCompat.getColor(
+                                application,
+                                R.color.red
+                            )
                         )
                     }
                 }
@@ -58,9 +58,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun verifyDataFromUser(title: String, description: String): Boolean {
-        return if (title.isBlank() || description.isBlank()) {
-            false
-        } else !(title.isBlank() || description.isBlank())
+        return !(title.isBlank() || description.isBlank())
 
     }
 
