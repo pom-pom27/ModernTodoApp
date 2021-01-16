@@ -3,6 +3,7 @@ package com.example.moderntodoapp.fragments.list.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moderntodoapp.databinding.RowLayoutBinding
 import com.example.moderntodoapp.db.models.TodoData
@@ -10,7 +11,7 @@ import java.util.Collections.emptyList
 
 class ListAdapter(private val context: Context) : RecyclerView.Adapter<ListAdapter.MyViewHolder>() {
 
-    var dataList = emptyList<TodoData>()
+    var dataList: List<TodoData> = emptyList()
 
     class MyViewHolder(private val binding: RowLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(todoData: TodoData) {
@@ -39,7 +40,9 @@ class ListAdapter(private val context: Context) : RecyclerView.Adapter<ListAdapt
     }
 
     fun setData(listTodoData: List<TodoData>) {
+        val todoDiffUtil = TodoDiffUtil(dataList, listTodoData)
+        val todoDiffUtilResult = DiffUtil.calculateDiff(todoDiffUtil)
         dataList = listTodoData
-        notifyDataSetChanged()
+        todoDiffUtilResult.dispatchUpdatesTo(this)
     }
 }

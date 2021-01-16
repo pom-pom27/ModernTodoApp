@@ -7,6 +7,8 @@ import com.example.moderntodoapp.db.models.TodoData
 class TodoRepository(private val todoDAO: TodoDAO) {
 
     val getAllData: LiveData<List<TodoData>> = todoDAO.getAllData()
+    val sortByLowPriority: LiveData<List<TodoData>> = todoDAO.sortByLowPriority()
+    val sortByHighPriority: LiveData<List<TodoData>> = todoDAO.sortByHighPriority()
 
     suspend fun insertData(todoData: TodoData) {
         todoDAO.insertData(todoData)
@@ -22,6 +24,10 @@ class TodoRepository(private val todoDAO: TodoDAO) {
 
     suspend fun deleteAll() {
         todoDAO.deleteAll()
+    }
+
+    fun searchQuery(searchQuery: String): LiveData<List<TodoData>> {
+        return todoDAO.searchQuery(searchQuery)
     }
 
 }

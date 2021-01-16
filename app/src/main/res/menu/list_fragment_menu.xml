@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:title="@string/search"
+        android:id="@+id/menu_list_search"
         android:icon="@drawable/ic_search"
         android:tint="@color/white"
         app:showAsAction="ifRoom"
@@ -11,12 +12,17 @@
     <group android:checkableBehavior="single">
         <item android:title="@string/sort_by">
             <menu>
-                <item android:title="@string/priority_high" />
-                <item android:title="@string/priority_low" />
+                <item
+                    android:title="@string/priority_low"
+                    android:id="@+id/sort_low" />
+                <item
+                    android:title="@string/priority_high"
+                    android:id="@+id/sort_high" />
             </menu>
         </item>
     </group>
     <item
-        android:title="@string/delete_all" android:id="@+id/list_deleteAll_menu"
+        android:title="@string/delete_all"
+        android:id="@+id/list_deleteAll_menu"
         app:showAsAction="never" />
 </menu>

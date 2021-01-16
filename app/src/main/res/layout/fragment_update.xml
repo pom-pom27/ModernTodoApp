@@ -50,7 +50,7 @@
 
         <EditText
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="400dp"
             android:id="@+id/et_description"
             android:layout_marginTop="10dp"
             android:text="@{args.currentItem.desc}"
