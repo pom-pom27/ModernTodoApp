@@ -1,5 +1,6 @@
 package com.example.moderntodoapp.fragments.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -22,50 +23,48 @@ class UpdateFragment : Fragment() {
     private val mTodoViewModel: TodoViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentUpdateBinding.inflate(inflater, container, false)
-        val view = binding.root
+        binding.args = args
 
         //Set Menu
         setHasOptionsMenu(true)
 
+        binding.dropdown.onItemSelectedListener = mSharedViewModel.listener
 
-        with(binding) {
-            etTitle.setText(args.currentItem.title)
-            etDesc.setText(args.currentItem.desc)
-            dropdown.setSelection(mSharedViewModel.parsePriorityToInt(args.currentItem.priorityModel))
-            dropdown.onItemSelectedListener = mSharedViewModel.listener
-        }
-        return view
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
         inflater.inflate(R.menu.upgrade_fragment_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.update_save_menu) {
-            updateItem()
+
+        when (item.itemId) {
+            R.id.update_save_menu -> updateItem()
+            R.id.update_delete_menu -> confirmItemRemoval()
         }
+
         return super.onOptionsItemSelected(item)
     }
+
 
     private fun updateItem() {
         val currentTitle = binding.etTitle.text.toString()
         val currentPriority = binding.dropdown.selectedItem.toString()
-        val currentDescription = binding.etDesc.text.toString()
+        val currentDescription = binding.etDescription.text.toString()
 
         val validation = mSharedViewModel.verifyDataFromUser(currentTitle, currentDescription)
 
         if (validation) {
             val todoData = TodoData(
-                args.currentItem.id,
-                currentTitle,
-                mSharedViewModel.parsePriority(currentPriority),
-                currentDescription
+                    args.currentItem.id,
+                    currentTitle,
+                    mSharedViewModel.parsePriority(currentPriority),
+                    currentDescription
             )
             mTodoViewModel.updateData(todoData)
             Toast.makeText(requireContext(), "Successfully updated!", Toast.LENGTH_SHORT).show()
@@ -74,6 +73,20 @@ class UpdateFragment : Fragment() {
             Toast.makeText(requireContext(), "Please fill all the field", Toast.LENGTH_SHORT).show()
 
         }
+    }
+
+    private fun confirmItemRemoval() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            mTodoViewModel.deleteData(args.currentItem)
+            Toast.makeText(requireContext(), "Successfuly deleted!", Toast.LENGTH_LONG).show()
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        }
+        builder.setNegativeButton("No") { _, _ ->
+        }
+        builder.setTitle("Deleting '${args.currentItem.title}.'")
+        builder.setMessage("Are you sure want to delete '${args.currentItem.title}' ?")
+        builder.create().show()
     }
 
     override fun onDestroyView() {

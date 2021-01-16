@@ -6,11 +6,12 @@
         android:id="@+id/update_save_menu"
         android:title="@string/save"
         android:icon="@drawable/ic_save"
-        android:iconTint="@color/white" app:showAsAction="ifRoom"/>
+        android:tint="@color/white"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/update_menu_delete"
-        android:title="@string/delete"
-        android:iconTint="@color/white" app:showAsAction="never"
-        android:icon="@drawable/ic_baseline_delete_24"  />
+        android:title="@string/delete" android:id="@+id/update_delete_menu"
+        android:tint="@color/white"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_baseline_delete_24" />
 
 </menu>

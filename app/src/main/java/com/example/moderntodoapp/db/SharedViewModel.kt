@@ -6,10 +6,18 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.example.moderntodoapp.R
 import com.example.moderntodoapp.db.models.PriorityModel
+import com.example.moderntodoapp.db.models.TodoData
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
+
+    val emptyDatabase = MutableLiveData(false)
+
+    fun checkIsEmptyDatabase(todoList: List<TodoData>) {
+        emptyDatabase.value = todoList.isEmpty()
+    }
 
 
     val listener: AdapterView.OnItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -18,26 +26,26 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 when (position) {
                     0 -> {
                         (parent.getChildAt(0) as TextView).setTextColor(
-                            ContextCompat.getColor(
-                                application,
-                                R.color.green
-                            )
+                                ContextCompat.getColor(
+                                        application,
+                                        R.color.green
+                                )
                         )
                     }
                     1 -> {
                         (parent.getChildAt(0) as TextView).setTextColor(
-                            ContextCompat.getColor(
-                                application,
-                                R.color.yellow
-                            )
+                                ContextCompat.getColor(
+                                        application,
+                                        R.color.yellow
+                                )
                         )
                     }
                     2 -> {
                         (parent.getChildAt(0) as TextView).setTextColor(
-                            ContextCompat.getColor(
-                                application,
-                                R.color.red
-                            )
+                                ContextCompat.getColor(
+                                        application,
+                                        R.color.red
+                                )
                         )
                     }
                 }
@@ -67,14 +75,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             PriorityModel.LOW
         }
         else -> PriorityModel.LOW
-    }
-
-    fun parsePriorityToInt(priority: PriorityModel): Int {
-        return when (priority) {
-            PriorityModel.LOW -> 0
-            PriorityModel.MEDIUM -> 1
-            PriorityModel.HIGH -> 2
-        }
     }
 
 

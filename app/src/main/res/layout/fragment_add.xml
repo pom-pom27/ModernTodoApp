@@ -13,6 +13,7 @@
         android:layout_height="60dp"
         android:background="@drawable/custom_input"
         android:hint="@string/the_title"
+        android:inputType="text"
         android:importantForAutofill="no"
         android:paddingHorizontal="20dp"
         android:paddingVertical="20dp"
@@ -36,13 +37,13 @@
         app:layout_constraintTop_toBottomOf="@+id/et_title" />
 
     <EditText
-        android:id="@+id/et_description"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/custom_input"
         android:ems="10"
         android:gravity="start|top"
+        android:id="@+id/et_description"
         android:hint="@string/the_description"
         android:importantForAutofill="no"
         android:inputType="textMultiLine"
